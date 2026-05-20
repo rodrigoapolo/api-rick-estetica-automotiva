@@ -65,7 +65,7 @@ class OrdemServicoGestaoControllerTest {
         verify(ordemServicoUseCase).buscarDetalheParaGestao(5L);
     }
 
-    // TODO arrumar teste de adicionar servicos para gestao, tem que ser mais completo, tem que testar o request e o response, e tem que testar o status code 201
+    // TODO arrumar teste de adicionar servicos para gestao, tem que ser mais completo, tem que testar o request e o response, e tem q
 
     @Test
     @DisplayName("adicionarServicosParaGestao deve retornar 201")
