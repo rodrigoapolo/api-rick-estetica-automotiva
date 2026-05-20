@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - feature/docker
 
 jobs:
   build:
@@ -24,6 +25,16 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
+
+      - name: Install local librabbitmq
+        working-directory: ./api-agendamento-serviços
+        run: >-
+          mvn -B -q install:install-file
+          -Dfile=docker/libs/librabbitmq-1.0-SNAPSHOT.jar
+          -DgroupId=com.automotiva.estetica.rick
+          -DartifactId=librabbitmq
+          -Dversion=1.0-SNAPSHOT
+          -Dpackaging=jar
 
       - name: Build and test
         working-directory: ./api-agendamento-serviços
