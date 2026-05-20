@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - feature/docker
 
 jobs:
   build:
@@ -25,25 +26,6 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Install librabbitmq from local JAR
-        run: |
-          JAR_PATH=$(find . -name "librabbitmq-1.0-SNAPSHOT.jar" | head -1)
-          echo "JAR encontrado em: $JAR_PATH"
-          
-          mvn install:install-file \
-            -Dfile="$JAR_PATH" \
-            -DgroupId=com.automotiva.estetica.rick \
-            -DartifactId=librabbitmq \
-            -Dversion=1.0-SNAPSHOT \
-            -Dpackaging=jar \
-            -DgeneratePom=true
-          
-          echo "=== Verificando instalação ==="
-          find ~/.m2/repository/com/automotiva -type f 2>/dev/null || echo "FALHOU - não encontrado no .m2"
-
       - name: Build and test
-        run: |
-          WORKING_DIR=$(find . -maxdepth 1 -type d -name "api-agendamento*" | head -1)
-          echo "Buildando em: $WORKING_DIR"
-          cd "$WORKING_DIR"
-          mvn clean verify
+        working-directory: ./api-agendamento-serviços
+        run: mvn clean verify
