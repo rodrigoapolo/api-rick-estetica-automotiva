@@ -26,15 +26,15 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Install local librabbitmq
-        working-directory: ./api-agendamento-serviços
-        run: >-
-          mvn -B -q install:install-file
-          -Dfile=docker/libs/librabbitmq-1.0-SNAPSHOT.jar
-          -DgroupId=com.automotiva.estetica.rick
-          -DartifactId=librabbitmq
-          -Dversion=1.0-SNAPSHOT
-          -Dpackaging=jar
+      # 👇 Instala o JAR local no repositório Maven do runner
+      - name: Install librabbitmq from local JAR
+        run: |
+          mvn install:install-file \
+            -Dfile=./api-agendamento-serviços/docker/libs/librabbitmq-1.0-SNAPSHOT.jar \
+            -DgroupId=com.automotiva.estetica.rick \
+            -DartifactId=librabbitmq \
+            -Dversion=1.0-SNAPSHOT \
+            -Dpackaging=jar
 
       - name: Build and test
         working-directory: ./api-agendamento-serviços
