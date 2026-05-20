@@ -64,7 +64,8 @@ class OrdemServicoGestaoControllerTest {
         assertEquals(5L, response.getBody().getId());
         verify(ordemServicoUseCase).buscarDetalheParaGestao(5L);
     }
-//TODO arruma
+
+    // TODO arruma
 
     @Test
     @DisplayName("adicionarServicosParaGestao deve retornar 201")
