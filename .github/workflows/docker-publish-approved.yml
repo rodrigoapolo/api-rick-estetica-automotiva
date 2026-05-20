@@ -9,10 +9,16 @@ jobs:
     permissions:
       contents: read
     if: >-
-      github.event.review.state == 'approved' &&
+      ${{ github.event.review.state == 'approved' &&
       (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'dev' || github.event.pull_request.base.ref == 'homolog') &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
+      - name: Debug event
+        run: |
+          echo "Review state: ${{ github.event.review.state }}"
+          echo "Base ref: ${{ github.event.pull_request.base.ref }}"
+          echo "Repo: ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "Expected repo: ${{ github.repository }}"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up QEMU
