@@ -1,7 +1,11 @@
 name: Publish Docker image on PR approval
 on:
-  pull_request_review:
-    types: [submitted]
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev
+      - homolog
 jobs:
   publish:
     name: Build and push Docker image
