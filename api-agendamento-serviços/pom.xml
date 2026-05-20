@@ -49,6 +49,12 @@
 		<mysql-connector.version>8.3.0</mysql-connector.version>
 		<flyway.version>10.18.1</flyway.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>local-libs</id>
+			<url>file://${project.basedir}/libs</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
