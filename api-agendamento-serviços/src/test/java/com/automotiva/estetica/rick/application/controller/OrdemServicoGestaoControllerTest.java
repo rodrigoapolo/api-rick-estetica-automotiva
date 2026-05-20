@@ -64,21 +64,8 @@ class OrdemServicoGestaoControllerTest {
         assertEquals(5L, response.getBody().getId());
         verify(ordemServicoUseCase).buscarDetalheParaGestao(5L);
     }
-//TODO arruma
-//    @Test
-//    @DisplayName("atualizarStatusParaGestao deve delegar e retornar 200")
-//    void atualizarStatusParaGestao_deveDelegarERetornar200() {
-//        AtualizarStatusOrdemRequest request = AtualizarStatusOrdemRequest.builder().status(2L).build();
-//        OrdemServicoDetalheResponse detalhe = OrdemServicoDetalheResponse.builder().id(10L).build();
-//        when(ordemServicoUseCase.atualizarStatusParaGestao(10L, request)).thenReturn(detalhe);
-//
-//        var response = controller.atualizarStatusParaGestao(10L, request);
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertNotNull(response.getBody());
-//        assertEquals(10L, response.getBody().getId());
-//        verify(ordemServicoUseCase).atualizarStatusParaGestao(10L, request);
-//    }
+
+    // TODO arruma
 
     @Test
     @DisplayName("adicionarServicosParaGestao deve retornar 201")
