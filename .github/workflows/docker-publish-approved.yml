@@ -30,6 +30,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug pom path
+        run: |
+          echo "Arquivos na raiz:"
+          ls -la
+          echo "Dentro de api-agendamento-serviços:"
+          ls api-agendamento-serviços/
+          find . -name "pom.xml"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
