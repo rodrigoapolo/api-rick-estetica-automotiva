@@ -14,8 +14,6 @@ jobs:
     permissions:
       contents: read
 
-    # Dispara somente se o PR foi de fato mergeado (não apenas fechado/rejeitado)
-    # e se veio do mesmo repositório (evita forks externos)
     if: >-
       github.event.pull_request.merged == true &&
       github.event.pull_request.head.repo.full_name == github.repository
@@ -29,14 +27,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Debug pom path
-        run: |
-          echo "Arquivos na raiz:"
-          ls -la
-          echo "Dentro de api-agendamento-serviços:"
-          ls api-agendamento-serviços/
-          find . -name "pom.xml"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -87,7 +77,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: docker/ambiente
-          file: docker/ambiente/Dockerfile
+          context: api-agendamento-serviços
+          file: api-agendamento-serviços/docker/ambiente/Dockerfile
           push: true
           tags: rodrigoapolo/api-rick:${{ env.APP_VERSION }}-${{ env.ENV_SUFFIX }}
