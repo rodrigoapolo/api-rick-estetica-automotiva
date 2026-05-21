@@ -21,6 +21,8 @@ WORKDIR /build
 COPY ../../pom.xml .
 COPY ../../.mvn .mvn
 COPY ../../mvnw .
+RUN chmod +x mvnw
+RUN ./mvnw dependency:go-offline -B 2>/dev/null || true
 
 # Executar mvnw para validar/preparar sem compilar src/
 RUN ./mvnw dependency:go-offline -B 2>/dev/null || true
