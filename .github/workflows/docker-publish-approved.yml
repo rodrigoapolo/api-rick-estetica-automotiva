@@ -53,7 +53,7 @@ jobs:
           import os
           from pathlib import Path
 
-          pom = Path("pom.xml")
+          pom = Path("api-agendamento-serviços/pom.xml")
           root = ET.parse(pom).getroot()
           ns = {"m": "http://maven.apache.org/POM/4.0.0"}
 
