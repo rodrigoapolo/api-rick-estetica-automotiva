@@ -74,10 +74,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push              
         uses: docker/build-push-action@v6
         with:
           context: api-agendamento-servicos
           file: api-agendamento-servicos/docker/ambiente/Dockerfile
           push: true
-          tags: rodrigoapolo/api-rick:${{ env.APP_VERSION }}-${{ env.ENV_SUFFIX }}
+          tags: |
+            rodrigoapolo/api-rick:${{ env.APP_VERSION }}-${{ env.ENV_SUFFIX }}
+            rodrigoapolo/api-rick:latest-${{ env.ENV_SUFFIX }}
