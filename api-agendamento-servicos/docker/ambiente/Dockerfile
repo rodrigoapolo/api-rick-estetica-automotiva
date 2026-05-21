@@ -53,11 +53,8 @@ RUN groupadd -r spring && useradd -r -g spring spring
 # Copiar JAR do builder
 COPY --from=builder /build/target/api-agendamento-servicos-*.jar app.jar
 
-# Copiar arquivo de secrets example (apenas referência)
-COPY ../../.env.example .env.example
-
 # Ajustar permissões (read-only para usuário spring)
-RUN chmod 444 app.jar && chmod 444 .env.example && chown -R spring:spring /app
+RUN chmod 444 app.jar && chown -R spring:spring /app
 
 # Trocar para usuário não-root
 USER spring
