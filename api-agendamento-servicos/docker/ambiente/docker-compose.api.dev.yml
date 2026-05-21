@@ -1,0 +1,84 @@
+name: Publish Docker image on merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - dev
+      - main
+
+jobs:
+  publish:
+    name: Build and push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    # Roda apenas se foi merge de verdade e do mesmo repositório (não forks)
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - name: Debug event
+        run: |
+          echo "Merged: ${{ github.event.pull_request.merged }}"
+          echo "Base ref: ${{ github.event.pull_request.base.ref }}"
+          echo "Repo: ${{ github.event.pull_request.head.repo.full_name }}"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Resolve version and environment suffix
+        id: version
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          import os
+          from pathlib import Path
+
+          pom = Path("api-agendamento-serviços/pom.xml")
+          root = ET.parse(pom).getroot()
+          ns = {"m": "http://maven.apache.org/POM/4.0.0"}
+
+          version_node = root.find("m:version", ns)
+          if version_node is None:
+              version_node = root.find("m:parent/m:version", ns)
+
+          version = version_node.text.strip()
+          base_ref = "${{ github.event.pull_request.base.ref }}"
+
+          suffix_map = {
+              "main": "prod",
+              "dev":  "dev",
+          }
+
+          suffix = suffix_map.get(base_ref)
+          if not suffix:
+              raise SystemExit(f"Base branch not mapped: {base_ref}")
+
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env_file:
+              env_file.write(f"APP_VERSION={version}\n")
+              env_file.write(f"ENV_SUFFIX={suffix}\n")
+          PY
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: api-agendamento-serviços
+          file: api-agendamento-serviços/docker/ambiente/Dockerfile
+          push: true
+          tags: rodrigoapolo/api-rick:${{ env.APP_VERSION }}-${{ env.ENV_SUFFIX }}
