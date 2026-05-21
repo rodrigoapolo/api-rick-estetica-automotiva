@@ -65,7 +65,8 @@ class OrdemServicoGestaoControllerTest {
         verify(ordemServicoUseCase).buscarDetalheParaGestao(5L);
     }
 
-    // TODO arrumar teste de adicionar     servicos para gestao, tem que ser mais completo, tem que testar
+    // TODO arrumar teste de adicionar servicos para gestao, tem que ser mais
+    // completo, tem que testar
 
     @Test
     @DisplayName("adicionarServicosParaGestao deve retornar 201")
