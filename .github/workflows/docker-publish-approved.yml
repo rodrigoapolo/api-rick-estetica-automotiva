@@ -43,7 +43,7 @@ jobs:
           import os
           from pathlib import Path
 
-          pom = Path("api-agendamento-serviços/pom.xml")
+          pom = Path("api-agendamento-servicos/pom.xml")
           root = ET.parse(pom).getroot()
           ns = {"m": "http://maven.apache.org/POM/4.0.0"}
 
@@ -77,7 +77,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: api-agendamento-serviços
-          file: api-agendamento-serviços/docker/ambiente/Dockerfile
+          context: api-agendamento-servicos
+          file: api-agendamento-servicos/docker/ambiente/Dockerfile
           push: true
           tags: rodrigoapolo/api-rick:${{ env.APP_VERSION }}-${{ env.ENV_SUFFIX }}
